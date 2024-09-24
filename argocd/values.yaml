@@ -12,13 +12,13 @@ server:
     # -- Additional ingress annotations
     ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
     annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      kubernetes.io/ingress.class: cilium
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       alb.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 
     # -- Defines which ingress controller will implement the resource
-    ingressClassName: nginx
+    ingressClassName: cilium
 
     # -- Argo CD server hostname
     # @default -- `""` (defaults to global.domain)
@@ -34,3 +34,18 @@ server:
     ## TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
     ## You can create this secret via `certificate` or `certificateSecret` option
     tls: true
+
+configs:
+  params:
+    server.insecure: true
+  secret:
+    # Yomi
+    argocdServerAdminPassword: "$2a$10$9nsr5NmmBmuVz5eJM3fw8OOkU/NJh5aq37ZgzzvEsJRkZyNpFUYqO"
+  # image-updater setup
+  cm:
+    accounts.image-updater: apiKey
+  rbac:
+    policy.csv: |
+      p, role:image-updater, applications, get, */*, allow
+      p, role:image-updater, applications, update, */*, allow
+      g, image-updater, role:image-updater
