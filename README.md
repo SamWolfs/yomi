@@ -1,2 +1,4 @@
-# yomi
+# Yomi
+
+Kubernetes and GitOps experiments
 

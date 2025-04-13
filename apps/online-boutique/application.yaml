@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd-image-updater.argoproj.io/image-list: gcr.io/google-samples/microservices-demo/currencyservice, gcr.io/google-samples/microservices-demo/loadgenerator
+    argocd-image-updater.argoproj.io/image-list: samwolfs/online-boutique-currencyservice, samwolfs/online-boutique-adservice
   name: online-boutique
   namespace: argocd
 spec:
